@@ -1,0 +1,12 @@
+/* BOTONES */
+.btn { border-radius:8px; font-weight:600; transition: all var(--transition-speed) ease; border:none; }
+.btn-primary { background-color: var(--color-primary); border:none; }
+.btn-primary:hover { background-color: #061a35; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(10,37,64,0.3); }
+.btn-primary:disabled { opacity:0.7; cursor:not-allowed; }
+.btn-danger { background-color: var(--color-danger); }
+.btn-danger:hover { background-color: #b80320; }
+.btn-outline-light { border:2px solid white; color:white; }
+.btn-outline-light:hover { background-color: rgba(255,255,255,0.2); border-color:white; }
+.btn-sm { font-size:0.9rem; padding:0.4rem 0.8rem; }
+.btn-close { opacity:0.7; transition: opacity var(--transition-speed) ease; }
+.btn-close:hover { opacity:1; }

@@ -1,0 +1,12 @@
+/* SECCIONES Y TITULOS */
+main > section { animation: fadeInUp 0.6s ease-out; }
+@keyframes fadeInUp { from { opacity:0; transform: translateY(20px);} to { opacity:1; transform: translateY(0);} }
+
+section h2 { position: relative; padding-bottom: 1.5rem; }
+section h2::after { content: ''; position:absolute; bottom:0; left:50%; transform: translateX(-50%); width:80px; height:4px; background: linear-gradient(90deg, var(--color-danger), var(--color-warning)); border-radius:2px; }
+
+.bg-danger-light { background-color: #ffe5e5 !important; }
+
+.col-md-3 .border { transition: all var(--transition-speed) ease; border-color: #ddd !important; }
+.col-md-3 .border:hover { border-color: var(--color-primary) !important; background-color: #f8f9fa; transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.col-md-3 h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing:1px; }

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Monitor de incendios forestales en tiempo real para la región del Biobío">
+    <meta name="theme-color" content="#0a2540">
+    <title>Biobío Resiliente | Monitor de Incendios</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation" aria-label="Menú principal">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#inicio" aria-label="Biobío Resiliente - Monitor de Incendios">
+                Biobío Resiliente
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar menú">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#inicio" aria-current="page">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#datos">Datos en Vivo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero-section d-flex align-items-center" id="inicio" role="region" aria-label="Sección principal">
+        <div class="container text-center">
+            <div class="hero-badge mb-3">
+                <span class="badge bg-danger">METGO 3D 2025</span>
+            </div>
+            <h1 class="hero-section__title">Prevención de Incendios Forestales</h1>
+            <p class="hero-section__subtitle">Monitoreo en tiempo real para las provincias de Concepción, Biobío y Arauco.</p>
+            <div class="hero-section__actions mt-4">
+                <button id="btn-estado" class="btn btn-danger btn-lg" aria-label="Ver estado actual de alertas">Ver Estado Actual</button>
+                <button class="btn btn-outline-light btn-lg" aria-label="Acceder a guía de evacuación">Guía de Evacuación</button>
+            </div>
+            <div id="alerta-box" class="mt-4 d-none" role="alert" aria-live="polite" aria-atomic="true">
+                <div class="alert alert-warning">Cargando datos de SENAPRED...</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="container my-5" id="datos" role="main">
+        
+        <!-- SECCIÓN 1: TARJETAS DE INFORMACIÓN -->
+        <section class="mb-5" aria-label="Información de alertas y contactos">
+            <h2 class="text-center mb-4 fw-bold text-dark">Estado de la Región</h2>
+            <div class="row g-4">
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="info-card info-card--critical">
+                        <div class="info-card__icon"></div>
+                        <h3 class="info-card__title">Factor 30-30-30</h3>
+                        <p class="info-card__desc">Condiciones actuales extremas. Temp > 30°C, Humedad < 30%, Viento > 30km/h.</p>
+                        <small class="text-muted">Actualizado: <span id="hora-30-30">--:--</span></small>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="info-card">
+                        <div class="info-card__icon"></div>
+                        <h3 class="info-card__title">Números de Emergencia</h3>
+                        <ul class="info-card__list">
+                            <li><strong>130</strong> <span>CONAF</span></li>
+                            <li><strong>132</strong> <span>Bomberos</span></li>
+                            <li><strong>133</strong> <span>Carabineros</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="info-card info-card--interactive">
+                        <div class="info-card__icon"></div>
+                        <h3 class="info-card__title">Focos Activos</h3>
+                        <p class="info-card__desc">Consultar mapa satelital actualizado por NASA (FIRMS).</p>
+                        <button id="btn-mapa-focos" class="btn btn-sm btn-dark mt-2" aria-label="Ver mapa de focos activos">Ver Mapa</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: DATOS EN VIVO -->
+        <section class="mb-5 bg-white p-4 rounded-3 shadow-sm" aria-label="Datos en tiempo real">
+            <h2 class="text-center mb-4 fw-bold text-dark">Datos en Tiempo Real</h2>
+            <div class="row text-center">
+                <div class="col-md-3 mb-3">
+                    <div class="p-3 border rounded">
+                        <h4 class="text-muted small mb-2">Temperatura Promedio</h4>
+                        <p class="h3 text-warning fw-bold"><span id="temp-data">--</span>°C</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="p-3 border rounded">
+                        <h4 class="text-muted small mb-2">Humedad Relativa</h4>
+                        <p class="h3 text-info fw-bold"><span id="humidity-data">--</span>%</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="p-3 border rounded">
+                        <h4 class="text-muted small mb-2">Velocidad del Viento</h4>
+                        <p class="h3 text-secondary fw-bold"><span id="wind-data">--</span> km/h</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="p-3 border rounded">
+                        <h4 class="text-muted small mb-2">Focos Detectados</h4>
+                        <p class="h3 text-danger fw-bold"><span id="focos-data">--</span></p>
+                    </div>
+                </div>
+            </div>
+            <button id="btn-actualizar" class="btn btn-primary mt-3 w-100" aria-label="Actualizar datos en vivo">Actualizar Ahora</button>
+        </section>
+
+        <!-- SECCIÓN 3: INFORMACIÓN PRÁCTICA -->
+        <section class="mb-5" aria-label="Consejos de prevención">
+            <h2 class="text-center mb-4 fw-bold text-dark">Consejos de Prevención</h2>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="alert alert-info">
+                            <div>
+                                <h5 class="alert-heading">En el hogar</h5>
+                                <p class="mb-0 small">Mantenga límpios canaletas y techos. Pode árboles cerca de la vivienda.</p>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert alert-warning">
+                        <div>
+                            <h5 class="alert-heading">En bosques</h5>
+                            <p class="mb-0 small">No abandone fogatas. Respete restricciones locales. Lleve agua.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL: MAPA DE FOCOS ACTIVOS -->
+    <div class="modal fade" id="modalMapaFocos" tabindex="-1" aria-labelledby="modalMapaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalMapaLabel">Focos Activos - NASA FIRMS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="mapa-container" style="height: 500px; border-radius: 8px; overflow: hidden; background-color: #f0f0f0;">
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            <div class="text-center">
+                                <div class="spinner-border text-danger mb-3" role="status">
+                                    <span class="visually-hidden">Cargando mapa...</span>
+                                </div>
+                                <p class="text-muted">Cargando mapa interactivo...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="focos-info" class="mt-3">
+                        <small class="text-muted">Datos de NASA FIRMS actualizados cada 24 horas</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button id="btn-descargar-datos" class="btn btn-danger" aria-label="Descargar datos de focos">Descargar Datos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white text-center py-4 mt-5" id="contacto" role="contentinfo">
+        <div class="container">
+            <p class="mb-2">© 2026 Monitor Biobío. Proyecto educativo de prevención forestal.</p>
+            <p class="small text-muted mb-2">Sistema de monitoreo generado con <strong>METGO 3D</strong> | 2025</p>
+            <p class="small text-muted mb-0">
+                Datos de referencia. Para alertas oficiales, consulte 
+                fuentes oficiales y <strong>METGO_3D</strong>.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+</html>

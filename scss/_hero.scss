@@ -1,0 +1,46 @@
+/* HERO SECTION */
+.hero-section {
+    background: linear-gradient(135deg, rgba(10, 37, 64, 0.85), rgba(217, 4, 41, 0.85)),
+                url('https://images.unsplash.com/photo-1605213787635-bda856ed8b13?auto=format&fit=crop&q=80&w=1920');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 90vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: drift 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes drift { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 50px); } }
+
+.hero-section__title { font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 800; text-shadow: 3px 3px 6px rgba(0,0,0,0.5); margin-bottom: 1.5rem; animation: slideDown 0.8s ease-out; }
+
+.hero-section__subtitle { font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 300; margin-bottom: 2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); animation: slideUp 0.8s ease-out 0.2s backwards; }
+
+.hero-section__actions { animation: slideUp 0.8s ease-out 0.4s backwards; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+
+@keyframes slideDown { from { opacity:0; transform: translateY(-30px); } to { opacity:1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+
+.hero-badge { animation: slideDown 0.8s ease-out; }
+.hero-badge .badge { padding: 0.6rem 1.2rem; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(217,4,41,0.3); border-radius:50px; display:inline-flex; align-items:center; gap:0.5rem; }
+
+.hero-section .btn { padding: 0.75rem 2rem; font-size:1.1rem; font-weight:600; border-radius:8px; transition: all var(--transition-speed) ease; display:inline-flex; align-items:center; gap:0.5rem; }
+.hero-section .btn-danger:hover { background-color: #b80320; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(217,4,41,0.4); }
+.hero-section .btn-outline-light:hover { background-color: rgba(255,255,255,0.15); transform: translateY(-3px); }

@@ -1,0 +1,17 @@
+// ========================================
+// BIOBÍO RESILIENTE - MAIN SCSS
+// Usando @use (recomendado) en lugar de @import
+// ========================================
+
+@use 'variables' as *;
+@use 'base';
+@use 'navbar';
+@use 'hero';
+@use 'cards';
+@use 'sections';
+@use 'alerts';
+@use 'buttons';
+@use 'modal_map';
+@use 'footer';
+@use 'responsive';
+@use 'utilities';

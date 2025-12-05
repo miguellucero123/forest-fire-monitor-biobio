@@ -1,0 +1,4 @@
+/* FOOTER */
+footer { margin-top: 4rem; border-top: 2px solid rgba(255,255,255,0.1); }
+footer a { transition: color var(--transition-speed) ease; text-decoration: none; }
+footer a:hover { text-decoration: underline; color:white; }

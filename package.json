@@ -1,0 +1,12 @@
+{
+  "name": "monitor-biobio",
+  "version": "1.0.0",
+  "description": "Monitor de incendios - ejemplo con Sass",
+  "scripts": {
+    "build:css": "sass scss/style.scss:css/style.css --style=expanded",
+    "watch:css": "sass --watch scss/style.scss:css/style.css"
+  },
+  "devDependencies": {
+    "sass": "^1.94.2"
+  }
+}

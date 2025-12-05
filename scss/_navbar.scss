@@ -1,0 +1,11 @@
+/* NAVBAR */
+.navbar { padding: 1rem 0; box-shadow: var(--shadow-md); }
+
+.navbar-brand { font-size: 1.3rem; letter-spacing: 0.5px; transition: transform var(--transition-speed) ease; }
+.navbar-brand:hover { transform: scale(1.05); }
+
+.nav-link { transition: all var(--transition-speed) ease; position: relative; padding: 0.5rem 1rem !important; }
+
+.nav-link::after { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: var(--color-danger); transform: translateX(-50%); transition: width var(--transition-speed) ease; }
+
+.nav-link:hover::after { width: 80%; }
